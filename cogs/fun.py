@@ -240,21 +240,20 @@ class Fun(commands.Cog):
     async def coinflip(self, ctx):
         await ctx.send(f"The coin landed on: **{random.choice(['Heads', 'Tails'])}**")
 
-    @commands.command()
+   @commands.command()
     async def rps(self, ctx, choice: str):
         user = choice.lower()
         bot_choice = random.choice(["rock", "paper", "scissors"])
         result = ""
+
         if user == bot_choice:
-            result = "It's a tie!"
+            result = f"It's a tie! We both chose {bot_choice}."
         elif (user == "rock" and bot_choice == "scissors") or (user == "paper" and bot_choice == "rock") or (user == "scissors" and bot_choice == "paper"):
-            result = "You win!"
-        elif user in ["rock", "paper", "scissors"]:
-            result = "I win!"
+            result = f"You win! I chose {bot_choice}."
         else:
-            await ctx.send("❌ Choose rock, paper, or scissors.")
-            return
-        await ctx.send(f"You chose **{user}**. I chose **{bot_choice}**. {result}")
+            result = f"You lose! I chose {bot_choice}."
+
+        await ctx.send(result)
 
 async def setup(bot):
     await bot.add_cog(Fun(bot))
