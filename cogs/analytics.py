@@ -19,9 +19,6 @@ class Analytics(commands.Cog):
                 # Only count if it's not a command
                 self.user_messages[message.author.id] += 1
 
-            # Always allow command processing
-            await self.bot.process_commands(message)
-
         except Exception as e:
             print(f"[on_message] Error: {e}")
 
