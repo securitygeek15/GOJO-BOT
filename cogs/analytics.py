@@ -14,14 +14,13 @@ class Analytics(commands.Cog):
             if message.author.bot:
                 return
 
-            # Prevent counting messages that are commands
+            # Check if it's a command
             ctx = await self.bot.get_context(message)
-            if ctx.valid:
-                return  # It's a command, don't count it here
+            if not ctx.valid:
+                # Only count if it's not a command
+                self.user_messages[message.author.id] += 1
 
-            self.user_messages[message.author.id] += 1
-
-            # Still allow command processing
+            # Always process commands no matter what
             await self.bot.process_commands(message)
 
         except Exception as e:
