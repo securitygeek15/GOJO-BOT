@@ -6,7 +6,6 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Get the token from the environment variable
 TOKEN = os.getenv("DISCORD_TOKEN")
 PREFIX = os.getenv("COMMAND_PREFIX", "!")
 
@@ -16,9 +15,21 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 @bot.event
 async def on_ready():
     print(f"✅ Logged in as {bot.user}")
-    # Load cogs
+
+# Load all cogs before running the bot
+async def load_cogs():
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
-            await bot.load_extension(f'cogs.{filename[:-3]}')
+            try:
+                await bot.load_extension(f'cogs.{filename[:-3]}')
+                print(f"Loaded cog: {filename}")
+            except Exception as e:
+                print(f"Failed to load cog {filename}: {e}")
 
-bot.run(TOKEN)
+async def main():
+    async with bot:
+        await load_cogs()
+        await bot.start(TOKEN)
+
+import asyncio
+asyncio.run(main())
