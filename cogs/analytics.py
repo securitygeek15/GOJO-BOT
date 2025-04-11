@@ -1,4 +1,3 @@
-
 from discord.ext import commands
 import discord
 from collections import defaultdict
@@ -20,7 +19,7 @@ class Analytics(commands.Cog):
                 # Only count if it's not a command
                 self.user_messages[message.author.id] += 1
 
-            # Always process commands no matter what
+            # Always allow command processing
             await self.bot.process_commands(message)
 
         except Exception as e:
