@@ -94,6 +94,7 @@ class Fun(commands.Cog):
         user = choice.lower()
         bot_choice = random.choice(["rock", "paper", "scissors"])
         result = ""
+        await ctx.send(f"You chose **{user}**. I chose **{bot_choice}**. {result}")
         if user == bot_choice:
             result = "It's a tie!"
         elif (user == "rock" and bot_choice == "scissors") or (user == "paper" and bot_choice == "rock") or (user == "scissors" and bot_choice == "paper"):
@@ -103,7 +104,6 @@ class Fun(commands.Cog):
         else:
             await ctx.send("❌ Choose rock, paper, or scissors.")
             return
-        await ctx.send(f"You chose **{user}**. I chose **{bot_choice}**. {result}")
 
 async def setup(bot):
     await bot.add_cog(Fun(bot))
