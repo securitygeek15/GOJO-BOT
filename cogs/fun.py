@@ -25,15 +25,26 @@ class Fun(commands.Cog):
         await ctx.send("📢 Here's a quote:\n" + random.choice(quotes))
 
     @commands.command()
-    async def meme(self, ctx):
-        try:
-            response = requests.get("https://meme-api.com/gimme").json()
-            embed = discord.Embed(title=response["title"], url=response["postLink"], color=discord.Color.random())
-            embed.set_image(url=response["url"])
-            embed.set_footer(text=f"👍 {response['ups']} | r/{response['subreddit']}")
-            await ctx.send(embed=embed)
-        except:
-            await ctx.send("❌ Couldn't fetch meme.")
+    async def meme(self, ctx, subreddit: str = None):
+    try:
+        # If a subreddit is given, build the URL with it. Otherwise, use default random meme.
+        url = f"https://meme-api.com/gimme/{subreddit}" if subreddit else "https://meme-api.com/gimme"
+        
+        response = requests.get(url).json()
+        
+        embed = discord.Embed(
+            title=response["title"],
+            url=response["postLink"],
+            color=discord.Color.random()
+        )
+        embed.set_image(url=response["url"])
+        embed.set_footer(text=f"👍 {response['ups']} | r/{response['subreddit']}")
+        
+        await ctx.send(embed=embed)
+
+    except:
+        await ctx.send("❌ Couldn't fetch meme.")
+
 
     @commands.command()
     async def joke(self, ctx):
